@@ -2,21 +2,19 @@
 using namespace std;
 
 int main() {
-	string fileName;
-	cin >> fileName;
-	ifstream file(fileName);
+	ifstream file("in");
 
 	int total = 50;
 	int count = 0;
 
-	cout << "The dial starts by pointing at 50\n";
+	// cout << "The dial starts by pointing at 50\n";
 	
 	string line;
 	while (file >> line) {
 		char sign = line[0];
 		int val = atoi(line.c_str() + 1);
 		int wraps = val / 100;	
-		int prev = total;
+		// int prev = total;
 
 		val -= wraps * 100;
 
@@ -39,7 +37,7 @@ int main() {
 			count++;
 		}
 
-		cout << prev << " + " + line << " -> " << total << " | Count: " << count << endl;
+		// cout << prev << " + " + line << " -> " << total << " | Count: " << count << endl;
 	}
 
 	cout << count << endl;

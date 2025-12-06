@@ -1,47 +1,43 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {
-	ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+long string_to_long(string S, int n) {
+	long r = 0;
+	for (int i = 0; i < n; i++) {
+		r = r * 10 + (S[i] - '0');
+	}
+	return r;
+}
 
-	ifstream file("input");
-	string bank;
+long max_joltage(string line, int batteries) {
+	long to_remove = line.length() - batteries;
+
+	string S = "";
+	S.reserve((long)line.size());
+
+	for (char c : line) {
+		while (!S.empty() && c > S.back() && to_remove > 0) {
+			S.pop_back();
+			to_remove--;
+		}
+		S.push_back(c);
+	}
+
+	return string_to_long(S, batteries);
+}
+
+int main() {
+	ifstream file("bigboy");
+	string line;
 
 	long long sum = 0;
 
-	while (file >> bank) {
-		long long len = bank.length();
-		long long to_remove = len - 12;
-		string S = "";
-		for (long long i = 0; i < len; i++ ) {
-			if (S.empty() || to_remove == 0) {
-				S.push_back(bank[i]);
-			}
-			else if (bank[i] - '0' > S.back() - '0' 
-				  && to_remove > 0) {
-				do {
-					S.pop_back();
-					to_remove--;
-				} while (!S.empty() && bank[i] - '0' > S.back() - '0' && to_remove > 0);
-				S.push_back(bank[i]);
-			}
-			else {
-				S.push_back(bank[i]);
-			}
-		}
-		if ((long long)S.size() > 12) {
-			S.resize(12);
-		}
-
-		unsigned long long val = 0;
-		for (char c : S) {
-			val = val * 10 + (c - '0');
-		}
-
-		sum += val;
+	while (file >> line) {
+		long mj = max_joltage(line, 12);
+		sum += mj;
 	}
 
 	cout << sum << endl;
+
 	return 0;
 }
